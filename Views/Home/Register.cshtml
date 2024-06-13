@@ -1,0 +1,79 @@
+﻿@model KQStore.Models.User
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.HideNavBar = true;
+}
+
+@section Styles {
+    <link href="~/Content/register.css" rel="stylesheet" />
+}
+
+<div class="login-page">
+    <div class="container right-panel-active" id="container">
+        <div class="form-container sign-up-container right-panel-active">
+            <form id="registerForm" action="@Url.Action("Register", "Home")" method="post">
+                @Html.AntiForgeryToken()
+                <h1>Đăng ký</h1>
+                <div style="display:flex; ">
+                    <div style="display: block; margin: 20px">
+                        <div>
+                            <h6 style="text-align:left">Họ và tên</h6>
+                            <input type="text" name="Name" @*placeholder="Tên của bạn"*@ id="register-name" required />
+                            <div id="name-error" style="display:none; color:red;"></div>
+                        </div>
+                        <div>
+                            <h6 style="text-align:left">Email</h6>                            
+                            <input type="email" name="Email" @*placeholder="Email của bạn"*@ id="register-email" required />
+                            <div id="email-error" style="display:none; color:red;"></div>
+                        </div>
+                        <div>
+                            <h6 style="text-align:left">Số điện thoại</h6>
+                            <input type="text" name="Phone" @*placeholder="Số điện thoại của bạn"*@ id="register-phone" required />
+                            <div id="phone-error" style="display:none; color:red;"></div>
+                            
+                        </div>
+                        
+                        
+                    </div>
+                    <div style="display: block; margin: 20px">
+                        <div>
+                            <h6 style="text-align:left">Tài khoản đăng nhập</h6>
+                            <input type="text" name="username" @*placeholder="Tài khoản đăng nhập"*@ id="register-username" required />
+                            <div id="username-error" style="display:none; color:red;"></div>
+                        </div>
+                        <div>
+                            <h6 style="text-align:left">Mật khẩu</h6>
+                            <input type="password" name="password" @*placeholder="Password"*@ id="register-password" required />
+                            <div id="password-error" style="display:none; color:red;"></div>
+                        </div>
+                        <div>
+                            <h6 style="text-align:left">Nhập lại mật khẩu</h6>
+                            <input type="password" name="confirmPassword" @*placeholder="Confirm Password"*@ id="register-confirm-password" required />
+                            <div id="confirm-password-error" style="display:none; color:red;"></div>
+                        </div>
+
+                        <div id="register-error" style="display:none; color:red;"></div>
+                        <a style="margin:0px">Bạn đã có tài khoản?</a><a href="~/Home/Login">Đăng nhập</a>
+                    </div>
+                </div>
+                <button type="button" onclick="register()">Sign Up</button>
+            </form>
+        </div>
+
+        <div class="overlay-container right-panel-active">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left right-panel-active">
+                    <div>
+                        <img src="~/Image/kqicon1.png" style="width:200px; height:200px" />
+                        <h5>Keqing Shop</h5>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+<script src="~/Content/register.js"></script>

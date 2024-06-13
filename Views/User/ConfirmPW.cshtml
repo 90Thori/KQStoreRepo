@@ -1,0 +1,72 @@
+﻿@model KQStore.Models.User
+
+@{
+    ViewBag.Title = "ConfirmPW";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section style="background-color: #eee;">
+    <div class="container py-5">
+        <div class="row">
+         
+
+
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Nhập mật khẩu hiện tại để xác minh</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    @Html.PasswordFor(model => model.Password, new { id = "Password", @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <hr>
+
+
+                            <div class="text-center">
+                                <input type="submit" value="Lưu" class="btn btn-outline-primary" data-mdb-button-init data-mdb-ripple-init />
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<script>
+ 
+    function confirmPW() {
+       
+        var Password = $("#Password").val();
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ConfirmPW", "User")",
+            data: {
+               
+                Password: Password
+            },
+            dataType: "json",
+            success: function (response) {
+                if (response.success) {
+                    window.location.href = response.redirectTo;
+                } else {
+                    $("#error").html(response.error);
+                    $("#error").show();
+                }
+            },
+            error: function () {
+                alert("Đã xảy ra lỗi khi đăng nhập.");
+            }
+        });
+    }
+</script>

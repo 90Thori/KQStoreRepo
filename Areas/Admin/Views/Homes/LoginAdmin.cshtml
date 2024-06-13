@@ -1,0 +1,50 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div style=" width: 50%;  margin: 0 auto; ">
+    <link href="~/Content/yourstyles.css" rel="stylesheet" />
+
+    <div class="login-page">
+        <div class="container" id="container">
+            <div class="form-container sign-in-container">
+                <form id="loginForm" action="@Url.Action("LoginAdmin", "Homes",new { area = "Admin" })" method="post">
+                    @Html.AntiForgeryToken()
+                    <h2>Đăng nhập Admin</h2>
+
+                    <div>
+                        <h6 style="text-align:left">Tài khoản</h6>
+                        <input type="text" name="username" @*placeholder="Tài khoản của bạn"*@ id="username" required />
+                    </div>
+                    <div>
+                        <h6 style="text-align:left">Mật khẩu</h6>
+                        <input type="password" name="password" @*placeholder="Mật khẩu"*@ id="password" required />
+                    </div>
+                    @if (ViewBag.error != null)
+                    {
+                        <div style="color:red;">@ViewBag.error</div>
+                    }
+                    <div id="error" style="display:none; color:red;"></div>
+
+                    <button type="submit">Đăng nhập</button>
+                </form>
+            </div>
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-right ">
+                        <div style="left:200px">
+                            <img src="~/Image/kqicon1.png" style="width:200px; height:200px" />
+                            <h5>Keqing Shop</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="error" style="display:none; color:red;"></div>
+    </div>
+</div>
+
+
+  

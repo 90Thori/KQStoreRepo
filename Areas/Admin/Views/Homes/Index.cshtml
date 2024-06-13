@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<h2>Chào mừng đến với trang quản trị</h2>
+
+@{
+    var user = (KQStore.Models.User)HttpContext.Current.Session["user"];
+
+
+    if (user != null)
+    {
+        <h3 class="card-title">
+            Chào <b> @user.Name </b>  đến với trang quản trị
+        </h3>
+    }
+    else
+    {
+        <h3 class="card-title">
+            Chào bạn đến với trang quản trị
+        </h3>
+    }
+
+}

@@ -1,0 +1,48 @@
+﻿@model List<KQStore.Models.Products>
+
+<div class="container-fluid py-5">
+    <div class="text-center mb-4">
+        <h2 class="section-title px-5"><span class="px-2">Gợi ý cho bạn</span></h2>
+    </div>
+    
+                    <div class="row px-xl-3 justify-content-center">
+
+                        @if (ViewBag.TopSimilarProducts != null)
+                        {
+
+                            foreach (var product in ViewBag.TopSimilarProducts)
+                            {
+
+                                <div class="col-md-2 col-sm-1 col-5 mb-2">
+                                    <div class="card product-item border-0">
+                                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                            <a href="~/Product/Detail?productId=@product.ProductId">
+                                                <img class="img-fluid w-150" src="@Url.Content(product.Img)" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                            <h6 class="text-truncate mb-3">@product.Name</h6>
+                                            <div class="d-flex justify-content-center">
+                                                <h6>@(product.Price.ToString("#,##"))₫</h6><h6 class="text-muted ml-2"><del>@(product.Discount.ToString("#,##"))₫</del></h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                            }
+
+                        }
+                        else if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger">
+                                <strong>Error:</strong> @ViewBag.Error
+                            </div>
+                        }
+                        else
+                        {
+                            <p>Không có sản phẩm tương tự.</p>
+                        }
+                    </div>
+                </div>
+       
+

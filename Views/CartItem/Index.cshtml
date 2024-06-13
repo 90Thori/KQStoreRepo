@@ -1,0 +1,209 @@
+﻿@model IEnumerable<KQStore.Models.CartItem>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!-- Page Header Start -->
+<div class="container-fluid bg-secondary mb-5">
+    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+        <h1 class="font-weight-semi-bold text-uppercase mb-3">Giỏ hàng</h1>
+        <div class="d-inline-flex">
+            <p class="m-0"><a href="">Trang chủ</a></p>
+            <p class="m-0 px-2">-</p>
+            <p class="m-0">Giỏ hàng</p>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+<!-- Cart Start -->
+<div class="container-fluid pt-5" id="load_data">
+    <div class="row px-xl-5">
+        @if (Model.Any())
+        {
+            <div class="col-lg-8 table-responsive mb-5">
+
+
+                <table class="table table-bordered text-center mb-0">
+                    <thead class="bg-secondary text-dark">
+                        <tr>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Tổng</th>
+                            <th>Xóa sản phẩm</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tbody class="align-middle">
+                            <tr>
+                                @if (!string.IsNullOrEmpty(item.Product.Img))
+                                {
+                                    <td class="align-middle">
+                                        <div style="display: flex; align-items: center;">
+                                            <a href="~/Product/Detail?productId=@item.ProductId" style="margin-right: 10px;">
+                                                <img src="@Url.Content(item.Product.Img)" alt="" style="width: 100px;">
+                                            </a>
+                                            <div>
+                                                @item.Product.Name
+                                            </div>
+                                        </div>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>null</td>
+                                }
+
+                                <td class="align-middle">@(item.Product.Price.ToString("#,##"))₫</td>
+
+                                <td class="align-middle">
+                                    <div class="input-group quantity mx-auto" style="width: 100px;">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary btn-minus btnUpdateCartItemQuantity" data-id="@item.CartItemId" data-operation="minus">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm bg-secondary text-center quantityInput" value="@item.Quantity" data-id="@item.CartItemId">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary btn-plus btnUpdateCartItemQuantity" data-id="@item.CartItemId" data-operation="plus">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="align-middle" id="totalPrice" data-id="@item.CartItemId">@((item.Product.Price * item.Quantity).ToString("#,##"))₫</td>
+                                @* delete *@
+                                <td class="align-middle"><button class="btn btn-sm btn-primary remove-item-btn btnRemoveFromCart" data-id="@item.ProductId"><i class="fa fa-times"></i></button></td>
+                            </tr>
+
+
+                        </tbody>
+
+                    }
+
+                </table>
+                
+                
+
+
+            </div>
+
+            <div class="col-lg-4">
+                @*<form class="mb-5" action="">
+                    <div class="input-group">
+                        <input type="text" class="form-control p-4" placeholder="Coupon Code">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary">Apply Coupon</button>
+                        </div>
+                    </div>
+                </form>*@
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Tạm tính</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Tổng đơn</h6>
+                            <h6 class="font-weight-medium" id="cartTotal">@Model.Sum(item => item.Product.Price * item.Quantity).ToString("#,##")₫</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Phí ship</h6>
+                            <h6 class="font-weight-medium">-</h6>
+                        </div>
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5 class="font-weight-bold">Tổng</h5>
+                            <h5 class="font-weight-bold" id="cartTotalSummary">@Model.Sum(item => item.Product.Price * item.Quantity).ToString("#,##")₫</h5>
+                        </div>
+                        @Html.ActionLink("Thanh toán", "Index", "Order", null, new { @class = "btn btn-block btn-primary my-3 py-3" })
+                    </div>
+                </div>
+
+            </div>
+        }
+        else
+        {
+<p> Giỏ hàng của bạn trống.</p>
+}
+        </div>
+</div>
+<!-- Cart End -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(".btnRemoveFromCart").click(function () {
+                var productId = $(this).data("id");
+
+                $.ajax({
+                    url: '@Url.Action("RemoveFromCart", "CartItem")',
+                    type: "POST",
+                    data: JSON.stringify({ productId: productId }),
+                    contentType: "application/json",
+                    dataType: "JSON",
+                    success: function (response) {
+                        if (response.success) {
+                            location.reload(); // Reload the page to update the cart
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('Error removing item from cart.');
+                    }
+                });
+            });
+        });
+
+ $(document).ready(function () {
+        // Sự kiện click cho nút cộng/trừ
+        $('.btnUpdateCartItemQuantity').click(function () {
+            var button = $(this);
+            var cartItemId = button.data('id');
+            var operation = button.data('operation');
+            var quantityInput = $('input.quantityInput[data-id="' + cartItemId + '"]');
+            var currentQuantity = parseInt(quantityInput.val());
+
+            var newQuantity = currentQuantity;
+            if (operation === 'plus') {
+                newQuantity += 1;
+            } else if (operation === 'minus') {
+                newQuantity -= 1;
+                if (newQuantity < 1) newQuantity = 1; // Đảm bảo số lượng không nhỏ hơn 1
+            }
+
+            // Gửi yêu cầu AJAX để cập nhật số lượng
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UpdateCartItemQuantity", "CartItem")', 
+                data: { cartItemId: cartItemId, newQuantity: newQuantity },
+                success: function (response) {
+                    if (response.success) {
+                        quantityInput.val(newQuantity); // Cập nhật số lượng trong input
+                        var totalPriceElement = $('#totalPrice[data-id="' + cartItemId + '"]');
+                        totalPriceElement.text(response.totalPrice.toLocaleString() + '₫'); // Cập nhật giá tổng
+
+                        // Cập nhật tổng đơn hàng
+                        $('#cartTotal').text(response.cartTotal.toLocaleString() + '₫');
+                        $('#cartTotalSummary').text(response.cartTotal.toLocaleString() + '₫');
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert('An error occurred while updating the cart item.');
+                }
+            });
+        });
+    });
+    </script>
+
+
+}
+

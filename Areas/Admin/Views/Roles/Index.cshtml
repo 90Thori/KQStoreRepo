@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNet.Identity.EntityFramework
+@model IEnumerable<IdentityRole>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            ten quyen
+        </th>
+        <th></th>
+    </tr>
+    @if (Model != null && Model.Any())
+    {
+        var i = 1;
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>@i</td>
+                <td>@item.Name</td>
+                <td></td>
+            </tr>
+            i++;
+        }
+
+    }
+    @foreach (var item in Model)
+    {
+        <tr>
+            
+            <td>
+               @item.Name
+            </td>
+           
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,110 @@
+﻿@model PagedList.IPagedList<KQStore.Models.Product>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+
+
+
+
+<main>
+    <div class="container-fluid px-4">
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h3><i class="fas fa-table me-1"></i>Sản phẩm</h3>
+
+            </div>
+            <div class="card-body">
+                <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+                    <div class="datatable-top">
+                        <div class="d-grid">
+                            <a class="btn btn-primary btn-block" href="/Admin/Products/Create">Tạo mới</a>
+                        </div>
+                        <div class="datatable-search">
+                            @*<input class="datatable-input" placeholder="Search..." type="search" title="Search within table" aria-controls="datatablesSimple">*@
+                        </div>
+                    </div>
+
+
+                    @using (Html.BeginForm("Index", "Products", FormMethod.Get, new { @class = "form-inline" }))
+                    {
+                        <div class="form-group">
+                            @*<label>Chủ đề:</label>@Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" }) <label>Tên sách: </label>*@
+                            <input type="Text" class="form-control mx-sm-3" value="@ViewBag.search" name="searchProduct" placeholder="Nhập tên sản phẩm cần tìm">
+                            <input type="submit" class="btn btn-danger" value="Tìm sản phẩm">
+                        </div><hr />
+                    }
+
+                    <div class="datatable-container">
+                        <table class="datatable-table">
+                            <thead>
+                                <tr>
+                                    <th data-sortable="true" style="width: 3%;"><a href="/Admin/Products?sortOrder=@ViewBag.NameSort" class="datatable-sorter">@Html.ActionLink("Mã sản phẩm", "Index", new { sortOrder = ViewBag.NameSort })</a></th>
+
+                                    <th data-sortable="true" style="width: 10%;"><a href="~/Products/Index" class="datatable-sorter">Tên sản phẩm</a></th>
+                                    <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Giá</a></th>
+                                    <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Giảm giá</a></th>
+                                    <th data-sortable="true" style="width: 40%;"><a href="#" class="datatable-sorter">Chi tiết</a></th>
+                                    <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Ảnh</a></th>
+                                    <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Số lương</a></th>
+                                    <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Danh mục</a></th>
+                                    <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Đánh giá</a></th>
+                                    <th data-sortable="true" style="width: 11%;"><a href="#" class="datatable-sorter">Ngày tạo</a></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var i = 1;
+                                    foreach (var item in Model)
+                                    {
+                                        <tr data-index="@i">
+                                            <td>@Html.DisplayFor(modelItem => item.ProductId)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Discount)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Detail)</td>
+                                            @if (!string.IsNullOrEmpty(item.Img))
+                                            {
+                                                <td><img src="@Url.Content(item.Img)" style="width:100px;height:100px" /></td>
+                                            }
+                                            else
+                                            {
+                                                <td>null</td>
+                                            }
+
+                                            <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Category.CateName)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Rate)</td>
+                                            @if (item.Created.HasValue)
+                                            {
+                                                <td>@item.Created.Value.ToString("dd/MM/yyyy HH:mm")</td>
+                                            }
+                                            else
+                                            {
+                                                <td>no data</td>
+                                            }
+                                            <td>
+                                                @Html.ActionLink("Sửa", "Edit", new { id = item.ProductId }) |
+                                                @Html.ActionLink("Xóa", "Delete", new { id = item.ProductId })
+                                            </td>
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="datatable-bottom">
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+

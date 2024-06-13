@@ -1,0 +1,135 @@
+﻿@model PagedList.IPagedList<KQStore.Models.Product>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="header-carousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active" style="height: 350px;">
+            <img class="img-fluid" src="~/Image/keqingone.jpg" alt="Image">
+            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                <div class="p-3" style="max-width: 700px;">
+                    <h4 class="text-light text-uppercase font-weight-medium mb-3">Giá cả hợp lý</h4>
+                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Cửa hàng đa dạng</h3>
+                    <a href="~/Home/Index" class="btn btn-light py-2 px-3">Trang chủ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-3 col-md-12">
+            <div class="border-bottom mb-4 pb-4">
+                <h5 class="font-weight-semi-bold mb-4">Sản phẩm theo giá</h5>
+                <form id="priceFilterForm" method="get" action="@Url.Action("Index", "Product")">
+                    <input type="hidden" name="searchProduct" value="@ViewBag.search" />
+                    <input type="hidden" name="sortOrder" value="@ViewBag.CurrentSort" />
+                    <input type="hidden" name="CateId" value="@ViewBag.CateId" />
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="number" class="form-control" name="minPrice" placeholder="Giá tối thiểu" value="@ViewBag.MinPrice" />
+                    </div>
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="number" class="form-control" name="maxPrice" placeholder="Giá tối đa" value="@ViewBag.MaxPrice" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Lọc</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-9 col-md-12">
+            <div class="row pb-3">
+                <div class="col-12 pb-1">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        @using (Html.BeginForm("Index", "Product", FormMethod.Get, new { @class = "form-inline", id = "searchForm" }))
+                        {
+                            <div class="input-group">
+                                <input type="Text" class="form-control" value="@ViewBag.search" name="searchProduct" placeholder="Tìm theo tên sản phẩm">
+                                <div class="input-group-append">
+                                    <span class="input-group-text bg-transparent text-primary" id="searchIcon" style="cursor: pointer;">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                </div>
+                            </div><hr />
+                        }
+                        <script>
+                            document.getElementById("searchIcon").addEventListener("click", function () {
+                                document.getElementById("searchForm").submit();
+                            });
+                        </script>
+                    </div>
+                </div>
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                        <div class="card product-item border-0 mb-4">
+                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                @if (!string.IsNullOrEmpty(item.Img))
+                                {
+                                    <a href="~/Product/Detail?productId=@item.ProductId">
+                                        <img class="img-fluid w-100" src="@Url.Content(item.Img)" alt="">
+                                    </a>
+                                }
+                                else
+                                {
+                                    <p>null</p>
+                                }
+
+                            </div>
+                            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                <h6 class="text-truncate mb-3">@item.Name</h6>
+                                <div class="d-flex justify-content-center">
+                                    <h6>@(item.Price.ToString("#,##"))₫</h6>@if (item.Discount.HasValue)
+                                    {
+                                        <h6 class="text-muted ml-2"><del>@(item.Discount.Value.ToString("#,##"))₫</del></h6>
+                                    }
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between bg-light border">
+                                <a href="~/Product/Detail?productId=@item.ProductId" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                                <a href="" class="btn btn-sm text-dark p-0 btnAddToCart" data-id="@item.ProductId"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-12 pb-1">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchProduct = ViewBag.search, sortOrder = ViewBag.CurrentSort, CateId = ViewBag.CateId, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice }), new PagedListRenderOptions { UlElementClasses = new[] { "pagination justify-content-center mb-3" }, LiElementClasses = new[] { "page-item" } })
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(".btnAddToCart").click(function (event) {
+                event.preventDefault();
+                var productId = $(this).data("id");
+                
+
+                $.ajax({
+                    url: '@Url.Action("AddToCart", "CartItem")',
+                    type: "POST",
+                    data: JSON.stringify({ productId: productId, quantity: 1 }),
+                    contentType: "application/json",
+                    dataType: "JSON",
+                    success: function (response) {
+                        if (response.success) {
+                            alert('Sản phẩm đã được thêm vào giỏ hàng!');
+                            ShowCount();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('Bạn cần đăng nhập');
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,65 @@
+﻿@model KQStore.Models.Order
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<section class="content">
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Chi tiết đơn hàng</h3>
+        </div>
+        <div class="card-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <p><label>Mã đơn hàng:</label>  @Model.OrderCode</p>
+                </div>
+            </div>
+            <label>Tên sản phẩm:</label>
+            <!-- Hiển thị chi tiết đơn hàng -->
+            @foreach (var detail in Model.OrderDetails)
+            {
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <p>  @detail.Product.Name x @detail.Quantity</p> 
+                        <!-- Ở đây, chúng ta sử dụng đối tượng detail để truy cập vào chi tiết của từng sản phẩm trong đơn hàng và lấy tên sản phẩm -->
+                    </div>
+                </div>
+            }
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <p><label>Ngày tạo:</label> @Model.OrderDate</p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <p><label>Họ tên khách:</label> @Model.User.Name</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <p> <label>Số điện thoại:</label> @Model.User.Phone</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <p> <label>Email:</label> @Model.User.Email</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <p> <label>Tổng tiền:@Model.Total.ToString("#,##")</label> </p>
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+        </div>
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+</section>

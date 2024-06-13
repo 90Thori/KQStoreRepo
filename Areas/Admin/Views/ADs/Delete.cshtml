@@ -1,0 +1,49 @@
+﻿@model KQStore.Models.AD
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>AD</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AdsName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdsName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdsDetail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdsDetail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdsImage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdsImage)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

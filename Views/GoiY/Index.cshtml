@@ -1,0 +1,33 @@
+﻿
+@{
+    
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Gợi Ý Sản Phẩm";
+}
+
+<h2>Top 5 Sản Phẩm Tương Tự</h2>
+
+@if (ViewBag.TopSimilarProducts != null)
+{
+    <ul>
+        @foreach (var product in ViewBag.TopSimilarProducts)
+        {
+            <li>@product</li>
+        }
+    </ul>
+}
+else if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        <strong>Error:</strong> @ViewBag.Error
+    </div>
+}
+else
+{
+    <p>Không có sản phẩm tương tự.</p>
+}
+
+

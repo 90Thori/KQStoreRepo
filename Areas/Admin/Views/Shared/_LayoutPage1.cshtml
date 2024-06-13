@@ -1,0 +1,315 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Admin KQShop</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+</head>
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="~/Admin/Home/Index">Trang chủ</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <!-- Navbar Search-->
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            @*<div class="input-group">
+                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+            </div>*@
+        </form>
+        <!-- Navbar-->
+        @{
+            var user = (KQStore.Models.User)HttpContext.Current.Session["user"];
+
+
+            if (user != null)
+            {
+                <p class="ps-3 ms-3" style="color:white;text-align:center;margin-top:10px">@user.Name</p>
+            }
+            else
+            {
+                <h3 class="card-title">
+                    Chào bạn đến với trang quản trị
+                </h3>
+            }
+
+        }
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    @*<li><a class="dropdown-item" href="#!">Settings</a></li>
+                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                    <li><hr class="dropdown-divider" /></li>*@
+                    <li><a class="dropdown-item" href="~/Admin/Homes/Logout">Đăng xuất</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+
+
+                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                    Authentication
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="login.html">Login</a>
+                                        <a class="nav-link" href="register.html">Register</a>
+                                        <a class="nav-link" href="password.html">Forgot Password</a>
+                                    </nav>
+                                </div>
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                    Error
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+
+                            </nav>
+                        </div>
+
+                        <a class="nav-link" href="~/Admin/ADs/Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Quảng cáo
+                        </a>
+                        <a class="nav-link" href="~/Admin/Products/Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Sản phẩm
+                        </a>
+                        <a class="nav-link" href="~/Admin/ProductImages/Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Ảnh sản phẩm
+                        </a>
+                        <a class="nav-link" href="~/Admin/Categories/Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Danh mục
+                        </a>
+
+                        <a class="nav-link" href="~/Admin/Users/Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Tài khoản
+                        </a>
+                        <a class="nav-link" href="~/Admin/Orders/Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Đơn hàng
+                        </a>
+
+                        @*<a class="nav-link" href="~/Admin/OrderDetail/Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                OrderDetail
+                            </a>*@
+                        @*<a class="nav-link" href="~/Admin/Carts/Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Cart
+                            </a>*@
+                        @*<a class="nav-link" href="~/Admin/CartItems/Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                CartItem
+                            </a>*@
+
+                    </div>
+                </div>
+
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            @RenderBody()
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="~/Content/Admin/js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="~/Content/Admin/assets/demo/chart-area-demo.js"></script>
+    <script src="~/Content/Admin/assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="~/Content/Admin/js/datatables-simple-demo.js"></script>
+    <script src="~/Content/Client/plugins/jquery/jquery.min.js"></script>
+    <script src="~/Content/Client/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Content/Client/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Select2 -->
+    <script src="~/Content/Client/plugins/select2/js/select2.full.min.js"></script>
+    <!-- Bootstrap4 Duallistbox -->
+    <script src="~/Content/Client/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+    <!-- InputMask -->
+    <script src="~/Content/Client/plugins/moment/moment.min.js"></script>
+    <script src="~/Content/Client/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <!-- date-range-picker -->
+    <script src="~/Content/Client/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap color picker -->
+    <script src="~/Content/Client/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="~/Content/Client/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Bootstrap Switch -->
+    <script src="~/Content/Client/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+    <!-- BS-Stepper -->
+    <script src="~/Content/Client/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+    <!-- dropzonejs -->
+    <script src="~/Content/Client/plugins/dropzone/min/dropzone.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Content/Client/dist/js/adminlte.min.js"></script>
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+
+            //Datemask dd/mm/yyyy
+            $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+            //Datemask2 mm/dd/yyyy
+            $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+            //Money Euro
+            $('[data-mask]').inputmask()
+
+            //Date picker
+            $('#reservationdate').datetimepicker({
+                format: 'L'
+            });
+
+            //Date and time picker
+            $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
+            //Date range picker
+            $('#reservation').daterangepicker()
+            //Date range picker with time picker
+            $('#reservationtime').daterangepicker({
+                timePicker: true,
+                timePickerIncrement: 30,
+                locale: {
+                    format: 'MM/DD/YYYY hh:mm A'
+                }
+            })
+            //Date range as a button
+            $('#daterange-btn').daterangepicker(
+                {
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    },
+                    startDate: moment().subtract(29, 'days'),
+                    endDate: moment()
+                },
+                function (start, end) {
+                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+                }
+            )
+
+            //Timepicker
+            $('#timepicker').datetimepicker({
+                format: 'LT'
+            })
+
+            //Bootstrap Duallistbox
+            $('.duallistbox').bootstrapDualListbox()
+
+            //Colorpicker
+            $('.my-colorpicker1').colorpicker()
+            //color picker with addon
+            $('.my-colorpicker2').colorpicker()
+
+            $('.my-colorpicker2').on('colorpickerChange', function (event) {
+                $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+            })
+
+            $("input[data-bootstrap-switch]").each(function () {
+                $(this).bootstrapSwitch('state', $(this).prop('checked'));
+            })
+
+        })
+        // BS-Stepper Init
+        document.addEventListener('DOMContentLoaded', function () {
+            window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+        })
+
+        // DropzoneJS Demo Code Start
+        Dropzone.autoDiscover = false
+
+        // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
+        var previewNode = document.querySelector("#template")
+        previewNode.id = ""
+        var previewTemplate = previewNode.parentNode.innerHTML
+        previewNode.parentNode.removeChild(previewNode)
+
+        var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+            url: "/target-url", // Set the url
+            thumbnailWidth: 80,
+            thumbnailHeight: 80,
+            parallelUploads: 20,
+            previewTemplate: previewTemplate,
+            autoQueue: false, // Make sure the files aren't queued until manually added
+            previewsContainer: "#previews", // Define the container to display the previews
+            clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+        })
+
+        myDropzone.on("addedfile", function (file) {
+            // Hookup the start button
+            file.previewElement.querySelector(".start").onclick = function () { myDropzone.enqueueFile(file) }
+        })
+
+        // Update the total progress bar
+        myDropzone.on("totaluploadprogress", function (progress) {
+            document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
+        })
+
+        myDropzone.on("sending", function (file) {
+            // Show the total progress bar when upload starts
+            document.querySelector("#total-progress").style.opacity = "1"
+            // And disable the start button
+            file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
+        })
+
+        // Hide the total progress bar when nothing's uploading anymore
+        myDropzone.on("queuecomplete", function (progress) {
+            document.querySelector("#total-progress").style.opacity = "0"
+        })
+
+        // Setup the buttons for all transfers
+        // The "add files" button doesn't need to be setup because the config
+        // `clickable` has already been specified.
+        document.querySelector("#actions .start").onclick = function () {
+            myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
+        }
+        document.querySelector("#actions .cancel").onclick = function () {
+            myDropzone.removeAllFiles(true)
+        }
+        // DropzoneJS Demo Code End
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

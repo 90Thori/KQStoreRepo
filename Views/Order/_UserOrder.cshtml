@@ -1,0 +1,46 @@
+﻿@model KQStore.Models.User
+
+<div class="col-lg-8">
+    <div class="mb-4">
+        <h4 class="font-weight-semi-bold mb-4">Billing Address</h4>
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <label>Tên người nhận</label>
+                <input class="form-control" type="text" value="@Model.Name">
+            </div>
+
+            <div class="col-md-6 form-group">
+                <label>Địa chỉ E-mail</label>
+                <input class="form-control" type="text" value="@Model.Email">
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Số điện thoại cccccccccccccc</label>
+                <input class="form-control" type="text" value="@Model.Phone">
+            </div>
+            @if (Model.Address == null)
+            {
+                <div class="col-md-6 form-group">
+                    <label>Địa chỉ nhận hàng</label>
+                    <input class="form-control" type="text" name="address">
+                    
+                </div>
+
+            }
+            else
+            {
+                <div class="col-md-6 form-group">
+                    <label>Địa chỉ nhận hàng</label>
+                    <input class="form-control" type="text" value="@Model.Address" name="address">
+                </div>
+            }
+            <div class="col-md-6 form-group">
+                <label>Địa chỉ nhận hàng</label>
+                <input class="form-control" type="text" name="address">
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Ghi chúcadasd</label>
+                <input class="form-control" type="text" name="note">
+            </div>
+        </div>
+    </div>
+</div>

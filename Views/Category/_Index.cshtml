@@ -1,0 +1,5 @@
+﻿@model IEnumerable<KQStore.Models.Category>
+@foreach (var item in Model)
+{
+    <a href="~/Product/Index?CateId=@item.CateId" class="nav-item nav-link">@item.CateName</a>
+}

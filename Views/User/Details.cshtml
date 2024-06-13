@@ -1,0 +1,94 @@
+﻿@model KQStore.Models.User
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section style="background-color: #eee;">
+    <div class="container py-5">    
+       
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <img src="~/Image/keqinguser.jpg" alt="avatar"
+                             class="rounded-circle img-fluid" style="width: 150px;">
+                        <h5 class="my-3">@Model.Name</h5>
+
+                        <a href="@Url.Action("Edit", "User", new { id = Model.UserId })" class="btn btn-outline-primary ms-1" data-mdb-button-init data-mdb-ripple-init>
+                            Sửa thông tin
+                        </a>
+                        <a href="~/Order/DonMua" class="btn btn-outline-primary ms-1" data-mdb-button-init data-mdb-ripple-init>
+                            Đã mua
+                        </a>
+                    </div>
+                </div>             
+            </div>
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Họ Tên</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Model.Name</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Tên đăng nhập</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Model.UserName</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Mật khẩu</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="password" value="@Model.Password" class="form-control" readonly />
+                                <a href="@Url.Action("ConfirmPW", "User", new { id = Model.UserId })" class="btn btn-outline-primary ms-1" data-mdb-button-init data-mdb-ripple-init>
+                                    Đổi mật khẩu
+                                </a>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Email</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Model.Email</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Số điện thoại</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Model.Phone</p>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Địa chỉ</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Model.Address</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           
+            </div>
+        </div>
+    </div>
+</section>

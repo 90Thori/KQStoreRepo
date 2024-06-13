@@ -1,0 +1,57 @@
+﻿@model IEnumerable<KQStore.Models.AD>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<h2>Quảng cáo</h2>
+
+<p>
+    @Html.ActionLink("Tạo mới", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Tên quảng cáo
+        </th>
+        <th>
+            CHi tiết
+        </th>
+        <th>
+            Ảnh
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdsName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdsDetail)
+            </td>
+            @if (item.AdsImage == null)
+            {
+                <td>null</td>
+
+            }
+            else
+            {
+                <td>
+                    <img src="@Url.Content(item.AdsImage)" style="width:100px;height:100px" />
+                </td>
+            }
+
+
+            <td>
+                @Html.ActionLink("Sửa", "Edit", new { id = item.AdsId }) |
+                
+                @Html.ActionLink("Xóa", "Delete", new { id = item.AdsId })
+            </td>
+        </tr>
+    }
+
+</table>

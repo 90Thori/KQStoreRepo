@@ -1,0 +1,74 @@
+﻿
+@model KQStore.Models.Feedback
+
+
+<div class="row px-xl-5">
+    <div class="col">
+        <div class="nav nav-tabs justify-content-center border-secondary mb-4">
+            <a class="nav-item nav-link active " data-toggle="tab" href="#tab-pane-3">Đánh giá (1)</a>
+        </div>
+      
+        <div class="tab-content">
+            <div class="tab-pane fade active show" id="tab-pane-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 class="mb-4">1 đánh giá</h4>
+                        <div class="media mb-4">
+                            <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+                            <div class="media-body">
+                                <h6>Nam Anh<small> - <i>15/05/2024</i></small></h6>
+                                <div class="text-primary mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <p>Sản phẩm đẹp, hợp túi tiền nhưng giao hơi chậm.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="mb-4">Để lại đánh giá cho sản phẩm</h4>
+                        @if (!ViewBag.HasPurchased)
+                        {
+                            <h6>Bạn cần mua sản phẩm này để được đánh giá</h6>
+                        }
+                        else
+                        {
+                            <small>Email của bạn sẽ không hiển thị</small>
+                            <div class="d-flex my-3">
+                                <p class="mb-0 mr-2">Đánh giá sản phẩm:</p>
+                                <div class="text-primary">
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                            <form>
+                                <div class="form-group">
+                                    <label for="message">Đánh giá tại đây</label>
+                                    <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Tên của bạn</label>
+                                    <input type="text" class="form-control" id="name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email của bạn</label>
+                                    <input type="email" class="form-control" id="email">
+                                </div>
+                                <div class="form-group mb-0">
+                                    <input type="submit" value="Đánh giá" class="btn btn-primary px-3">
+                                </div>
+                            </form>
+                        
+                        }
+                     </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

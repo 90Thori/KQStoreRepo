@@ -1,0 +1,28 @@
+﻿@model KQStore.Models.Order
+@{
+    ViewBag.Title = "PlaceOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Bạn đã đặt hàng thành công</h3>
+<br />
+<h3>Hóa đơn sẽ được gửi đến email của bạn</h3>
+@*<p>Tiếp tục mua hàng</p> <a href="~/Product/Index">mua</a>*@
+@*@if (Model.ShipAddress == null)
+{
+    <p>no address</p>
+}
+else
+{
+    @Model.ShipAddress
+}
+
+@if (Model.Note == null)
+{
+    <p>no note</p>
+}
+else
+{
+    @Model.Note
+}*@
+

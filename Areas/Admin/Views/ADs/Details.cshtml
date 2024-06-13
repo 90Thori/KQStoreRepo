@@ -1,0 +1,43 @@
+﻿@model KQStore.Models.AD
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AD</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AdsName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdsName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdsDetail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdsDetail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdsImage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdsImage)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AdsId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

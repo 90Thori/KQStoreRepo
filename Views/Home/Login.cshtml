@@ -1,0 +1,99 @@
+﻿
+
+@model KQStore.Models.User
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.HideNavBar = true;
+}
+
+
+@section Styles {
+    <link href="~/Content/yourstyles.css" rel="stylesheet" />
+}
+<div class="login-page">
+    <div class="container" id="container">
+        <div class="form-container sign-in-container">
+            <form id="loginForm" action="@Url.Action("Login", "Home")" method="post">
+                @Html.AntiForgeryToken()
+                <h2>Đăng nhập</h2>
+                
+                <div>
+                    <h6 style="text-align:left">Tài khoản</h6>
+                    <input type="text" name="username" @*placeholder="Tài khoản của bạn"*@ id="username" required />
+                </div>
+                <div>
+                    <h6 style="text-align:left">Mật khẩu</h6>
+                    <input type="password" name="password" @*placeholder="Mật khẩu"*@ id="password" required />
+                </div>
+                
+                <div id="error" style="display:none; color:red;"></div>
+                <a style="margin:0px">Bạn chưa có tài khoản?</a><a href="~/Home/Register">Đăng ký</a>
+                <button type="submit">Đăng nhập</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-right ">
+                    <div style="left:200px">
+                        <img src="~/Image/kqicon1.png" style="width:200px; height:200px" />
+                        <h5>Keqing Shop</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="error" style="display:none; color:red;"></div>
+
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#loginForm").submit(function (event) {
+                event.preventDefault();
+                login();
+            });
+        });
+
+        function login() {
+            var username = $("#username").val();
+            var password = $("#password").val();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Login", "Home")",
+                data: {
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+                    username: username,
+                    password: password
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.redirectTo;
+                    } else {
+                        $("#error").html(response.error);
+                        $("#error").show();
+                    }
+                },
+                error: function () {
+                    alert("Đã xảy ra lỗi khi đăng nhập.");
+                }
+            });
+        }
+    </script>
+</div>
+@*<script>
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    signUpButton.addEventListener('click', () => {
+        container.classList.add('right-panel-active');
+    });
+
+    signInButton.addEventListener('click', () => {
+        container.classList.remove('right-panel-active');
+    });
+</script>*@

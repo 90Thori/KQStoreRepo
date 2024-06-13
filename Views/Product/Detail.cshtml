@@ -1,0 +1,118 @@
+﻿@model KQStore.Models.Product
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@ViewBag.ProductId
+<!-- Page Header Start -->
+<div class="container-fluid bg-secondary mb-5">
+    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+        <h1 class="font-weight-semi-bold text-uppercase mb-3">Chi tiết sản phẩm</h1>
+        <div class="d-inline-flex">
+            <p class="m-0"><a href="~/Home/Index">Trang chủ</a></p>
+            <p class="m-0 px-2">-</p>
+            <p class="m-0">Chi tiết sản phẩm</p>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+<!-- Shop Detail Start -->
+<div class="container-fluid py-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-5 pb-5">
+            <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner border">
+                    @Html.Action("Index", "ProductImage", new { ProductId = Model.ProductId })
+
+                </div>
+                <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                    <i class="fa fa-2x fa-angle-left text-white"></i>
+                </a>
+                <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                    <i class="fa fa-2x fa-angle-right text-white"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-7 pb-5">
+            <h3 class="font-weight-semi-bold">@Model.Name</h3>
+            <div class="d-flex mb-3">
+                @*<div class="text-primary mr-2">
+                <small class="fas fa-star"></small>
+                <small class="fas fa-star"></small>
+                <small class="fas fa-star"></small>
+                <small class="fas fa-star"></small>
+                <small class="far fa-star"></small>
+            </div>*@
+                @*<small class="pt-1">(50 Reviews)</small>*@
+            </div>
+            <h3 class="font-weight-semi-bold mb-4">@(Model.Price.ToString("#,##"))₫</h3>
+            <p class="mb-4">Số lượng: @Model.Quantity</p>
+            <p class="mb-4">@Model.Detail</p>
+
+            <div class="d-flex align-items-center mb-4 pt-2">
+                <div class="input-group quantity mr-3" style="width: 130px;">
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary btn-minus btnUpdateCartItemQuantity" data-operation="minus">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                    <input type="text" class="form-control bg-secondary text-center" value="1">
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary btn-plus btnUpdateCartItemQuantity" data-operation="plus">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                <button class="btn btn-primary px-3 btnAddToCart" data-id="@Model.ProductId"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+            </div>
+        </div>
+    </div>
+    @Html.Action("Index", "Feedback", new { productId = Model.ProductId })
+   
+</div>
+@Html.Action("Index", "GoiY", new { productId = Model.ProductId })
+<!-- Shop Detail End -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.btnUpdateCartItemQuantity').click(function() {
+            var input = $(this).closest('.quantity').find('input');
+            var currentValue = parseInt(input.val());
+            var operation = $(this).data('operation');
+
+            if (operation === 'plus') {
+                input.val(currentValue + 1);
+            } else if (operation === 'minus' && currentValue > 1) {
+                input.val(currentValue - 1);
+            }
+        });
+
+        $('.btnAddToCart').click(function() {
+            var productId = $(this).data('id');
+            var quantity = $(this).closest('.d-flex').find('input').val();
+
+            $.ajax({
+                url: '@Url.Action("AddToCart", "CartItem")',
+                type: 'POST',
+                data: {
+                    productId: productId,
+                    quantity: quantity
+                },
+                //contentType: "application/json",
+                //dataType: "JSON",
+                success: function (response) {
+                    if (response.success) {
+                        alert('Sản phẩm đã được thêm vào giỏ hàng!');
+                        ShowCount();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert('Bạn cần đăng nhập');
+                }
+            });
+        });
+    });
+</script>

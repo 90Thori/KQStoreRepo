@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e3d00143ec024e3981ef11400f00d851" Name="Diagram1">
+        <EntityTypeShape EntityType="KQStoreModel.AD" Width="1.5" PointX="7.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="KQStoreModel.Cart" Width="1.5" PointX="3" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="KQStoreModel.CartItem" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="KQStoreModel.Category" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="KQStoreModel.Feedback" Width="1.5" PointX="8.25" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="KQStoreModel.OrderDetail" Width="1.5" PointX="5.25" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KQStoreModel.Order" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KQStoreModel.PaymentMethod" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="KQStoreModel.Product" Width="1.5" PointX="3" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="KQStoreModel.ProductImage" Width="1.5" PointX="5.25" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="KQStoreModel.Role" Width="1.5" PointX="1.5" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KQStoreModel.User" Width="1.5" PointX="0.75" PointY="10" IsExpanded="true" />
+        <AssociationConnector Association="KQStoreModel.FK__CartItem__CartId__70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="KQStoreModel.FK_Cart_User" ManuallyRouted="false" />
+        <AssociationConnector Association="KQStoreModel.FK__CartItem__Produc__71D1E811" ManuallyRouted="false" />
+        <AssociationConnector Association="KQStoreModel.FK__Product__CateId__6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="KQStoreModel.FK__Feedback__Produc__6B24EA82" ManuallyRouted="false" />
+        <AssociationConnector Association="KQStoreModel.FK_Feedback_User" ManuallyRouted="false" />
+        <AssociationConnector Association="KQStoreModel.FK__OrderDeta__Order__66603565" ManuallyRouted="false" />
+        <AssociationConnector Association="KQStoreModel.FK__OrderDeta__Produ__6754599E" ManuallyRouted="false" />
+        <AssociationConnector Association="KQStoreModel.FK__Orders__IdPay__5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="KQStoreModel.FK_Orders_User" ManuallyRouted="false" />
+        <AssociationConnector Association="KQStoreModel.FK__ProductIm__Produ__160F4887" ManuallyRouted="false" />
+        <AssociationConnector Association="KQStoreModel.FK__Users__RoleId__4D94879B" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

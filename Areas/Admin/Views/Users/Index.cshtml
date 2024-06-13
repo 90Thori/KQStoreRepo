@@ -1,0 +1,85 @@
+﻿
+@model PagedList.IPagedList<KQStore.Models.User>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+
+
+
+
+<main>
+    <div class="container-fluid px-4">
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h3><i class="fas fa-table me-1"></i>Tài khoản</h3>
+
+            </div>
+            <div class="card-body">
+                <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+                    <div class="datatable-top">
+                        <div class="d-grid">
+                            <a class="btn btn-primary btn-block" href="/Admin/Users/Create">Tạo mới</a>
+                        </div>
+                        <div class="datatable-search">
+                            @*<input class="datatable-input" placeholder="Search..." type="search" title="Search within table" aria-controls="datatablesSimple">*@
+                        </div>
+                    </div>
+                    <div class="datatable-container">
+                        <table class="datatable-table">
+                            <thead>
+                                <tr>
+                                    <th data-sortable="true" style="width: 10%;"><a href="~/Products/Index" class="datatable-sorter">Tên</a></th>
+                                    <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Tên tài khoản</a></th>
+                                    <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Email</a></th>
+                                    <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Số điện thoại</a></th>
+                                    <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Mật khẩu</a></th>
+                                    <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Địa chỉ</a></th>
+                                    <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Ngày tạo</a></th>
+                                    <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Ngày cập nhật</a></th>
+                                    <th data-sortable="true" style="width: 5%;"><a href="#" class="datatable-sorter">Tên quyền</a></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var i = 1;
+                                    foreach (var item in Model)
+                                    {
+                                                                <tr data-index="@i">
+                                                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Password)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.UpdatedAt)</td>
+
+                                                                    <td>@Html.DisplayFor(modelItem => item.Role.RoleName)</td>
+
+                                                                    
+                                                                    <td>
+                                                                        @Html.ActionLink("Sửa", "Edit", new { id = item.UserId }) |
+                                                                        @Html.ActionLink("Xóa", "Delete", new { id = item.UserId })
+                                                                    </td>
+                                                                </tr>
+                                        i++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="datatable-bottom">
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+

@@ -1,0 +1,350 @@
+﻿@model IEnumerable<KQStore.Models.Product>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Thống kê</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="~/Admin/Orders/Index">Đơn hàng</a></li>
+                    <li class="breadcrumb-item active">Thống kê</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    @*<div class="row mb-2">
+        <div class="col-md-4">
+            <input type="date" id="fromDate" class="form-control" placeholder="Từ ngày">
+        </div>
+        <div class="col-md-4">
+            <input type="date" id="toDate" class="form-control" placeholder="Đến ngày">
+        </div>
+        <div class="col-md-4">
+            <button id="applyFilter" class="btn btn-primary">Áp dụng</button>
+        </div>
+    </div>*@
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Thống kê danh thu</h3>
+
+            <div class="card-tools">
+                @*<button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                    </button>*@
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="chart">
+                        <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Lượt mua sản phẩm</h3>
+
+                <div class="card-tools">-->
+                    @*<button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>*@
+                <!--</div>
+            </div>
+            <div class="card-body">
+                <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>-->
+            <!-- /.card-body -->
+        <!--</div>-->
+        <!-- /.card-body -->
+        <div class="card-footer">
+            <h3>Kho hàng</h3>
+            <div class="card-body">
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+
+                            <th>STT</th>
+                            <th>Tên sản phẩm</th>
+                            @*<th>Mã sản phẩm</th>*@
+                            <th>Số lượng còn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            var i = 1;
+                            foreach (var item in Model)
+                            {
+
+                                <tr id="trow_@item.ProductId">
+
+                                    <td>@i</td>
+                                    <td>@item.Name</td>
+                                    
+                                    <td>
+                                        @if (item.Quantity == 0)
+                                        {
+                                            @item.Quantity <span class="badge badge-warning">Hết hàng</span>
+                                        }
+                                        else
+                                        {
+                                            @item.Quantity
+                                        }
+                                    </td>
+
+                                   
+                                </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4">Không có bản ghi nào!!!</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+
+            </div>
+        </div>
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
+@section scripts{
+    <script src="~/Content/Client/plugins/chart.js/Chart.min.js"></script>
+    <script src="~/Content/assets/plugins/moment/moment.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            loadData('', '');
+
+            $('#applyFilter').on('click', function () {
+                var fromDate = $('#fromDate').val();
+                var toDate = $('#toDate').val();
+                clearCharts();
+                loadData(fromDate, toDate);
+            });
+
+        });
+        function clearCharts() {
+            // Xóa biểu đồ cũ
+            if (window.barChart !== undefined)
+                window.barChart.destroy();
+        }
+        function loadData(fromDate, toDate) {
+            var arrDoanhThu = [];
+            var arrLoiNhuan = [];
+            var arrDate = [];
+            // Xóa biểu đồ cũ trước khi vẽ biểu đồ mới
+            $.ajax({
+                url: '/Admin/Statistical/GetStatistical',
+                type: 'GET',
+                data: { fromDate: fromDate, toDate: toDate },
+                success: function (rs) {
+                    $.each(rs.Data, function (i, item) {
+                        var strDate = moment(item.Date).format('DD/MM/yyyy');
+                        arrDate.push(strDate);
+                        arrDoanhThu.push(item.DoanhThu);
+                        arrLoiNhuan.push(item.LoiNhuan);
+                    });
+                    var areaChartData = {
+                        labels: arrDate,
+                        datasets: [
+                            {
+                                label: 'Lợi nhuận',
+                                backgroundColor: 'rgba(60,141,188,0.9)',
+                                borderColor: 'rgba(60,141,188,0.8)',
+                                pointRadius: false,
+                                pointColor: '#3b8bba',
+                                pointStrokeColor: 'rgba(60,141,188,1)',
+                                pointHighlightFill: '#fff',
+                                pointHighlightStroke: 'rgba(60,141,188,1)',
+                                data: arrLoiNhuan
+                            },
+                            {
+                                label: 'Danh thu',
+                                backgroundColor: 'rgba(210, 214, 222, 1)',
+                                borderColor: 'rgba(210, 214, 222, 1)',
+                                pointRadius: false,
+                                pointColor: 'rgba(210, 214, 222, 1)',
+                                pointStrokeColor: '#c1c7d1',
+                                pointHighlightFill: '#fff',
+                                pointHighlightStroke: 'rgba(220,220,220,1)',
+                                data: arrDoanhThu
+                            },
+                        ]
+                    }
+
+                    var barChartCanvas = $('#barChart').get(0).getContext('2d');
+                    var barChartData = $.extend(true, {}, areaChartData);
+                    var temp0 = areaChartData.datasets[0];
+                    var temp1 = areaChartData.datasets[1];
+                    barChartData.datasets[0] = temp1;
+                    barChartData.datasets[1] = temp0;
+
+                    var barChartOptions = {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        datasetFill: false,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    callback: function (value, index, values) {
+                                        return value.toLocaleString();
+                                    }
+                                }
+                            }]
+                        },
+                        tooltips: {
+                            callbacks: {
+                                label: function (tooltipItem, data) {
+                                    var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || '';
+                                    return datasetLabel + ': ' + tooltipItem.yLabel.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+
+                    window.barChart = new Chart(barChartCanvas, {
+                        type: 'bar',
+                        data: barChartData,
+                        options: barChartOptions
+                    });
+
+                    loadTableData(rs.Data);
+                },
+                error: function (error) {
+                    console.log("Error fetching data: ", error);
+                }
+            });
+        }
+
+
+        function loadTableData(data) {
+            var strHtml = "";
+            $.each(data, function (i, item) {
+                var strDate = moment(item.Date).format('DD/MM/yyyy');
+                strHtml += "<tr>";
+                strHtml += "<td>" + (i + 1) + "</td>";
+                strHtml += "<td>" + strDate + "</td>";
+                strHtml += "<td>" + item.DoanhThu.toLocaleString() + "</td>";
+                strHtml += "<td>" + item.LoiNhuan.toLocaleString() + "</td>";
+                strHtml += "</tr>";
+            });
+            $('#load_data').html(strHtml);
+        }
+
+
+
+
+        $(document).ready(function () {
+            loadDatas('', '');
+        });
+
+        $('#applyFilter').on('click', function () {
+            var fromDate = $('#fromDate').val();
+            var toDate = $('#toDate').val();
+            clearChart();
+            loadDatas(fromDate, toDate);
+        });
+        function clearChart() {
+            // Xóa biểu đồ cũ
+            if (window.donutChart !== undefined)
+                window.donutChart.destroy();
+        }
+
+        function loadDatas(fromDate, toDate) {
+            $.ajax({
+                url: '/Admin/Statistical/GetStatistical',
+                type: 'GET',
+                data: { fromDate: fromDate, toDate: toDate },
+                success: function (rs) {
+                    // Lấy dữ liệu theo ngày
+                    var dataByDate = rs.Data;
+
+                    // Tạo dữ liệu cho biểu đồ donutChart
+                    var productNames = [];
+                    var productQuantities = [];
+                    var backgroundColors = [];
+
+                    dataByDate.forEach(function (item, index) {
+                        item.ProductSales.forEach(function (product) {
+                            // Lấy tên sản phẩm và số lượng bán được
+                            productNames.push(product.ProductName);
+                            productQuantities.push(product.QuantitySold);
+                            // Màu sắc định danh cho mỗi loại sản phẩm
+                            backgroundColors.push(getRandomColor());
+                        });
+                    });
+
+                    // Cập nhật dữ liệu cho biểu đồ donutChart
+                    var donutChartCanvas = $('#donutChart').get(0).getContext('2d');
+                    var donutData = {
+                        labels: productNames,
+                        datasets: [{
+                            data: productQuantities,
+                            backgroundColor: backgroundColors,
+                        }]
+                    };
+                    var donutOptions = {
+                        maintainAspectRatio: false,
+                        responsive: true,
+                    };
+
+                    // Tạo biểu đồ donutChart mới
+                    window.donutChart = new Chart(donutChartCanvas, {
+                        type: 'doughnut',
+                        data: donutData,
+                        options: donutOptions
+                    });
+
+                },
+                error: function (error) {
+                    console.log("Error fetching data: ", error);
+                }
+            });
+        }
+
+        // Hàm tạo màu ngẫu nhiên cho các phần tử của biểu đồ donutChart
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+
+    </script>
+}
+
+
+

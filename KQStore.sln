@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34408.163
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KQStore", "KQStore.csproj", "{BEB29099-78BD-45C5-BB2E-7DC276390A01}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BEB29099-78BD-45C5-BB2E-7DC276390A01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEB29099-78BD-45C5-BB2E-7DC276390A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEB29099-78BD-45C5-BB2E-7DC276390A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEB29099-78BD-45C5-BB2E-7DC276390A01}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {036C9DE3-44A7-4D87-ACF5-EB4582781717}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<KQStore.Models.Product>
+@{
+    ViewBag.Title = "DonMua";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Sản phẩm đã mua</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>Bạn chưa mua sản phẩm nào.</p>
+}
+else
+{
+
+        <div class="col-lg-9 table-responsive ">
+            <table class="table table-bordered text-center mb-0">
+                <thead class="bg-secondary text-dark">
+                    <tr>
+                        <th>Tên sản phẩm</th>
+                        <th>Giá</th>
+                        
+                        <th>Đánh giá</th>
+                        
+                    </tr>
+                </thead>
+                <tbody class="align-middle">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="align-middle">
+                                <div style="display: flex; align-items: center;">
+                                    <a href="~/Product/Detail?productId=@item.ProductId" style="margin-right: 10px;">
+                                        <img src="@Url.Content(item.Img)" alt="" style="width: 100px;">
+                                    </a>
+                                    <div>
+                                        @item.Name
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle">@item.Price.ToString("#,##")₫</td>
+                            
+                            <td class="align-middle" style="width:100px"><a href="~/Product/Detail?productId=@item.ProductId" class="btn btn-outline-primary ms-5" data-mdb-button-init data-mdb-ripple-init>
+    Đánh giá
+</a></td>
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+  
+            }
